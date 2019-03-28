@@ -50,3 +50,14 @@ func ManhattanDistance(state [][]int, goal [][]int) int {
 	}
 	return sum
 }
+
+////////QUEUE FUNCS
+func Push(s State, frontier []State) {
+	frontier = append(frontier, s)
+}
+
+func Pop(frontier []State) State {
+	tmp := frontier[0]
+	frontier = frontier[1:]
+	return tmp
+}
