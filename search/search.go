@@ -6,13 +6,14 @@ import (
 )
 
 type State struct {
-	Board     [][]int
-	EmptyTile int
-	NumMoves  int
-	Children  []*State
-	Parent    *State
-	LastMove  Direction
-	Distance  int
+	Board      [][]int
+	EmptyTileX int
+	EmptyTileY int
+	NumMoves   int
+	Children   []*State
+	Parent     *State
+	LastMove   Direction
+	Distance   int
 }
 
 type Direction int
@@ -28,6 +29,61 @@ const (
 const SizeX = 3
 const SizeY = 3
 
+//////COMPARES
+
+func FindEmptyTile(board [][]int) (int, int) {
+	for y0 := 0; y0 < 3; y0++ {
+		for x0 := 0; x0 < 3; x0++ {
+			if board[y0][x0] == 0 {
+				return x0, y0
+			}
+		}
+	}
+	return -1, -1
+}
+
+////////ACTIONS
+func MoveUp(board [][]int, emptyX int, emptyY int) ([][]int, int, int) {
+	if emptyY == 0 {
+		return board, emptyX, emptyY
+	}
+	tmp := board[emptyY-1][emptyX]
+	board[emptyY-1][emptyX] = 0
+	board[emptyY][emptyX] = tmp
+	return board, emptyX, emptyY - 1
+}
+
+func MoveDown(board [][]int, emptyX int, emptyY int) ([][]int, int, int) {
+	if emptyY == 2 {
+		return board, emptyX, emptyY
+	}
+	tmp := board[emptyY+1][emptyX]
+	board[emptyY+1][emptyX] = 0
+	board[emptyY][emptyX] = tmp
+	return board, emptyX, emptyY + 1
+}
+
+func MoveLeft(board [][]int, emptyX int, emptyY int) ([][]int, int, int) {
+	if emptyX == 0 {
+		return board, emptyX, emptyY
+	}
+	tmp := board[emptyY][emptyX-1]
+	board[emptyY][emptyX-1] = 0
+	board[emptyY][emptyX] = tmp
+	return board, emptyX - 1, emptyY
+}
+
+func MoveRight(board [][]int, emptyX int, emptyY int) ([][]int, int, int) {
+	if emptyX == 2 {
+		return board, emptyX, emptyY
+	}
+	tmp := board[emptyY][emptyX+1]
+	board[emptyY][emptyX+1] = 0
+	board[emptyY][emptyX] = tmp
+	return board, emptyX + 1, emptyY
+}
+
+/////HEURISTIC METHODS
 func ManhattanDistance(state [][]int, goal [][]int) int {
 	var dx, dy int
 	var sum int

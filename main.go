@@ -14,5 +14,6 @@ func main() {
 	board := utils.InputParser("input.txt")
 	utils.StatePrinter(board)
 	fmt.Println("Manhattan Distance of input is: ", search.ManhattanDistance(board, goal))
+
 	fmt.Println("End...", time.Now())
 }
