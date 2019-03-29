@@ -5,15 +5,26 @@ import (
 	"math"
 )
 
+////////STACK DEFs
+type Stack []([][]int)
+
+func (s Stack) Empty() bool { return len(s) == 0 }
+
+//func (s Stack) Peek() int      { return s[len(s)-1] }
+func (s *Stack) Put(i [][]int) { (*s) = append((*s), i) }
+func (s *Stack) Pop() [][]int {
+	d := (*s)[len(*s)-1]
+	(*s) = (*s)[:len(*s)-1]
+	return d
+}
+
+/////////END STACK DEFs
 type State struct {
-	Board      [][]int
-	EmptyTileX int
-	EmptyTileY int
-	NumMoves   int
-	Children   []*State
-	Parent     *State
-	LastMove   Direction
-	Distance   int
+	Board    [][]int
+	NumMoves int
+	Parent   *State
+	LastMove Direction
+	Distance int
 }
 
 type Direction int
@@ -83,6 +94,22 @@ func MoveRight(board [][]int, emptyX int, emptyY int) ([][]int, int, int) {
 	return board, emptyX + 1, emptyY
 }
 
+func NewState(board [][]int) State {
+	return State{Board: board}
+}
+
+// IsGoal returns whether the state is the goal state.
+func (s State) IsGoal(goal [][]int) bool {
+	for y0 := 0; y0 < 3; y0++ {
+		for x0 := 0; x0 < 3; x0++ {
+			if s.Board[y0][x0] != goal[y0][x0] {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 /////HEURISTIC METHODS
 func ManhattanDistance(state [][]int, goal [][]int) int {
 	var dx, dy int
@@ -105,15 +132,4 @@ func ManhattanDistance(state [][]int, goal [][]int) int {
 		}
 	}
 	return sum
-}
-
-////////QUEUE FUNCS
-func Push(s State, frontier []State) {
-	frontier = append(frontier, s)
-}
-
-func Pop(frontier []State) State {
-	tmp := frontier[0]
-	frontier = frontier[1:]
-	return tmp
 }
