@@ -13,6 +13,19 @@ func checkErr(e error) {
 	}
 }
 
+func CopySlice(dst [][]int, src [][]int) {
+	dst[0][0] = src[0][0]
+	dst[0][1] = src[0][1]
+	dst[0][2] = src[0][2]
+	dst[1][0] = src[1][0]
+	dst[1][1] = src[1][1]
+	dst[1][2] = src[1][2]
+	dst[2][0] = src[2][0]
+	dst[2][1] = src[2][1]
+	dst[2][2] = src[2][2]
+
+}
+
 func FillGoal() [][]int {
 	var g [][]int
 	row1 := []int{0, 1, 2}
@@ -33,7 +46,10 @@ func StatePrinter(state [][]int) {
 }
 
 func InputParser(fileName string) [][]int {
-	var board [][]int
+	board := make([][]int, 3)
+	for i := 0; i < 3; i++ {
+		board[i] = make([]int, 3)
+	}
 	file, err := os.Open(fileName)
 	checkErr(err)
 
@@ -55,15 +71,13 @@ func InputParser(fileName string) [][]int {
 			checkErr(err)
 			//fmt.Println("j is: ", j, inpStr[j], ij)
 			inputArray = append(inputArray, int(ij))
-			//fmt.Println(inputArray)
+			fmt.Println(inputArray)
 		}
 	}
-	row1 := []int{inputArray[0], inputArray[1], inputArray[2]}
-	row2 := []int{inputArray[3], inputArray[4], inputArray[5]}
-	row3 := []int{inputArray[6], inputArray[7], inputArray[8]}
-	board = append(board, row1)
-	board = append(board, row2)
-	board = append(board, row3)
+
+	board[0] = inputArray[0:3]
+	board[1] = inputArray[3:6]
+	board[2] = inputArray[6:9]
 	return board
 
 }
