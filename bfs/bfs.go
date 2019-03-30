@@ -30,7 +30,7 @@ func Solve(start search.State, goal [][]int) (*search.State, int, int) {
 		for _, next := range current.PossibleMoves() {
 			//implement key of state to keep in heap
 			key := utils.BoardStringer(next.Board)
-			if old, exists := states[key]; !exists || next.Distance < old.Distance {
+			if _, exists := states[key]; !exists {
 				states[key] = next
 				stack = append(stack, key)
 				frontier++
