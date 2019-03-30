@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+	utils.PrintMemUsage()
 	args := os.Args
 	if len(args) != 2 {
 		fmt.Println("Usage: hw01 bfs or hw01 astar!")
@@ -29,6 +30,7 @@ func main() {
 		return
 	}
 	fmt.Println("Starting...", time.Now())
+	startTime := time.Now()
 	goal := make([][]int, 9)
 	goal = utils.FillGoal()
 	board := utils.InputParser("input.txt")
@@ -72,5 +74,8 @@ func main() {
 	fmt.Println("Frontier'e Giren Düğüm Sayısı:", frontier)
 	fmt.Println("Frontier'den Çıkan Düğüm Sayısı:", expanded)
 	fmt.Println("End...", time.Now())
+	elapsed := time.Since(startTime)
+	fmt.Println("Process took:", elapsed)
+	utils.PrintMemUsage()
 	return
 }
