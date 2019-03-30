@@ -18,7 +18,7 @@ func main() {
 	}
 	if strings.Compare(args[1], "bfs") == 0 {
 		fmt.Println("bfs")
-	} else if strings.Compare(args[1], "bfs") == 0 {
+	} else if strings.Compare(args[1], "astar") == 0 {
 		fmt.Println("astar")
 	} else {
 		fmt.Println("Usage: hw01 bfs or hw01 astar!")
@@ -28,6 +28,9 @@ func main() {
 	goal := make([][]int, 9)
 	goal = utils.FillGoal()
 	board := utils.InputParser("input.txt")
+	if board == nil {
+		return
+	}
 	utils.StatePrinter(board)
 	startState := search.NewState(board, goal)
 	solution, frontier, expanded := astar.Solve(startState, goal)

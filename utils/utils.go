@@ -85,13 +85,37 @@ func InputParser(fileName string) [][]int {
 			checkErr(err)
 			//fmt.Println("j is: ", j, inpStr[j], ij)
 			inputArray = append(inputArray, int(ij))
-			fmt.Println(inputArray)
+			//fmt.Println(inputArray)
 		}
 	}
-
+	goalArray := []int{0, 1, 2, 3, 4, 5, 6, 7, 8}
+	if !solvable(inputArray, goalArray) {
+		fmt.Println("Unsolvable Puzzle")
+		return nil
+	}
 	board[0] = inputArray[0:3]
 	board[1] = inputArray[3:6]
 	board[2] = inputArray[6:9]
 	return board
 
+}
+
+func solvable(board []int, goal []int) bool {
+	var invGoal int
+	for i := range goal {
+		for j := i + 1; j < len(goal); j++ {
+			if goal[i] > goal[j] && goal[j] != 0 {
+				invGoal++
+			}
+		}
+	}
+	invBoard := 0
+	for i := range board {
+		for j := i + 1; j < len(board); j++ {
+			if board[i] > board[j] && board[j] != 0 {
+				invBoard++
+			}
+		}
+	}
+	return invGoal%2 == invBoard%2
 }

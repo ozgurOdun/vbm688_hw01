@@ -6,7 +6,7 @@ import (
 	"github.com/ozgurOdun/vbm688_hw01/priorityQueue"
 	"github.com/ozgurOdun/vbm688_hw01/search"
 	"github.com/ozgurOdun/vbm688_hw01/utils"
-	"time"
+	//"time"
 )
 
 func Solve(start search.State, goal [][]int) (*search.State, int, int) {
@@ -18,7 +18,7 @@ func Solve(start search.State, goal [][]int) (*search.State, int, int) {
 	heap.Push(&pq, &priorityQueue.Item{Value: key, Priority: 0, Index: 0})
 
 	for pq.Len() != 0 {
-		time.Sleep(100 * time.Millisecond)
+		//time.Sleep(100 * time.Millisecond)
 		currentItem := heap.Pop(&pq).(*priorityQueue.Item)
 		current := states[currentItem.Value]
 		expanded++
