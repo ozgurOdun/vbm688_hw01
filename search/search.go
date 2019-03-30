@@ -1,23 +1,9 @@
 package search
 
 import (
-	"fmt"
 	"github.com/ozgurOdun/vbm688_hw01/utils"
 	"math"
 )
-
-////////STACK DEFs
-type Stack []([][]int)
-
-func (s Stack) Empty() bool { return len(s) == 0 }
-
-//func (s Stack) Peek() int      { return s[len(s)-1] }
-func (s *Stack) Put(i [][]int) { (*s) = append((*s), i) }
-func (s *Stack) Pop() [][]int {
-	d := (*s)[len(*s)-1]
-	(*s) = (*s)[:len(*s)-1]
-	return d
-}
 
 /////////END STACK DEFs
 type State struct {
@@ -25,6 +11,7 @@ type State struct {
 	NumMoves int
 	Parent   *State
 	LastMove Direction
+	Distance int
 }
 
 type Direction int
@@ -112,45 +99,32 @@ func MoveRight(board [][]int, emptyX int, emptyY int) ([][]int, int, int) {
 //check possible moves to create children
 func (s State) PossibleMoves() []State {
 	x, y := FindEmptyTile(s.Board)
-	fmt.Println(x, y)
+	goal := utils.FillGoal()
 	moves := make([]State, 0, 4)
-	fmt.Println("possiblemovesstart")
-	if y > 0 {
-		fmt.Println("canmoveup")
 
-		newBoard3, _, _ := MoveUp(s.Board, x, y)
-		moves = append(moves, State{Board: newBoard3, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Up})
-		utils.StatePrinter(newBoard3)
+	if y > 0 {
+		newBoard, _, _ := MoveUp(s.Board, x, y)
+		moves = append(moves, State{Board: newBoard, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Up, Distance: ManhattanDistance(newBoard, goal)})
 	}
 	if y < 2 {
-		fmt.Println("canmovedown")
-
-		newBoard4, _, _ := MoveDown(s.Board, x, y)
-		moves = append(moves, State{Board: newBoard4, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Down})
-		utils.StatePrinter(newBoard4)
+		newBoard, _, _ := MoveDown(s.Board, x, y)
+		moves = append(moves, State{Board: newBoard, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Down, Distance: ManhattanDistance(newBoard, goal)})
 	}
 	if x > 0 {
-		fmt.Println("canmoveleft")
-
-		newBoard1, _, _ := MoveLeft(s.Board, x, y)
-		moves = append(moves, State{Board: newBoard1, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Left})
-		utils.StatePrinter(newBoard1)
+		newBoard, _, _ := MoveLeft(s.Board, x, y)
+		moves = append(moves, State{Board: newBoard, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Left, Distance: ManhattanDistance(newBoard, goal)})
 	}
 	if x < 2 {
-		fmt.Println("canmoveright")
-		newBoard2, _, _ := MoveRight(s.Board, x, y)
-		moves = append(moves, State{Board: newBoard2, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Right})
-		utils.StatePrinter(newBoard2)
+		newBoard, _, _ := MoveRight(s.Board, x, y)
+		moves = append(moves, State{Board: newBoard, NumMoves: s.NumMoves + 1, Parent: &s, LastMove: Right, Distance: ManhattanDistance(newBoard, goal)})
 	}
-	utils.StatePrinter(s.Board)
-	fmt.Println("possiblemovesend")
 	return moves
 
 }
 
 ////BEGINING & END
-func NewState(board [][]int) State {
-	return State{Board: board}
+func NewState(board [][]int, goal [][]int) State {
+	return State{Board: board, Distance: ManhattanDistance(board, goal)}
 }
 
 func (s State) IsGoal(goal [][]int) bool {

@@ -26,6 +26,20 @@ func CopySlice(dst [][]int, src [][]int) {
 
 }
 
+func BoardStringer(board [][]int) string {
+	str := ""
+	for _, i := range board[0] {
+		str += strconv.Itoa(i)
+	}
+	for _, i := range board[1] {
+		str += strconv.Itoa(i)
+	}
+	for _, i := range board[2] {
+		str += strconv.Itoa(i)
+	}
+	return str
+}
+
 func FillGoal() [][]int {
 	var g [][]int
 	row1 := []int{0, 1, 2}
