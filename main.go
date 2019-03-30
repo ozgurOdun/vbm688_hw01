@@ -36,10 +36,12 @@ func main() {
 	}
 	utils.StatePrinter(board)
 	startState := search.NewState(board, goal)
+	var solution *search.State
+	var frontier, expanded int
 	if selection == 1 {
 		//bfs code here
 	} else if selection == 2 {
-		solution, frontier, expanded := astar.Solve(startState, goal)
+		solution, frontier, expanded = astar.Solve(startState, goal)
 	} else {
 		fmt.Println("Usage: hw01 bfs or hw01 astar!")
 		return
