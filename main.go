@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ozgurOdun/vbm688_hw01/astar"
+	"github.com/ozgurOdun/vbm688_hw01/bfs"
 	"github.com/ozgurOdun/vbm688_hw01/search"
 	"github.com/ozgurOdun/vbm688_hw01/utils"
 	"os"
@@ -39,7 +40,7 @@ func main() {
 	var solution *search.State
 	var frontier, expanded int
 	if selection == 1 {
-		//bfs code here
+		solution, frontier, expanded = bfs.Solve(startState, goal)
 	} else if selection == 2 {
 		solution, frontier, expanded = astar.Solve(startState, goal)
 	} else {
