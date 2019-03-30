@@ -16,10 +16,13 @@ func main() {
 		fmt.Println("Usage: hw01 bfs or hw01 astar!")
 		return
 	}
+	var selection int
 	if strings.Compare(args[1], "bfs") == 0 {
 		fmt.Println("bfs")
+		selection = 1
 	} else if strings.Compare(args[1], "astar") == 0 {
 		fmt.Println("astar")
+		selection = 2
 	} else {
 		fmt.Println("Usage: hw01 bfs or hw01 astar!")
 		return
@@ -33,7 +36,14 @@ func main() {
 	}
 	utils.StatePrinter(board)
 	startState := search.NewState(board, goal)
-	solution, frontier, expanded := astar.Solve(startState, goal)
+	if selection == 1 {
+		//bfs code here
+	} else if selection == 2 {
+		solution, frontier, expanded := astar.Solve(startState, goal)
+	} else {
+		fmt.Println("Usage: hw01 bfs or hw01 astar!")
+		return
+	}
 	if solution == nil {
 		fmt.Println("Çözülemedi...")
 		fmt.Println("Frontier'e Giren Düğüm Sayısı:", frontier)
