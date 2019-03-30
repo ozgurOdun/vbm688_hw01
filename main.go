@@ -53,6 +53,20 @@ func main() {
 		fmt.Println("End...", time.Now())
 		return
 	}
+	s := solution
+	steps := make([]*search.State, solution.NumMoves)
+	for i := 0; i < solution.NumMoves; i++ {
+		steps[i] = s
+		s = s.Parent
+	}
+	for i := len(steps)/2 - 1; i >= 0; i-- {
+		opp := len(steps) - 1 - i
+		steps[i], steps[opp] = steps[opp], steps[i]
+	}
+	for _, next := range steps {
+		utils.StatePrinter(next.Board)
+	}
+
 	fmt.Println("Çözüm Maliyeti:", solution.NumMoves)
 	fmt.Println("Frontier'e Giren Düğüm Sayısı:", frontier)
 	fmt.Println("Frontier'den Çıkan Düğüm Sayısı:", expanded)

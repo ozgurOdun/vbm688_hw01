@@ -2,7 +2,7 @@ package astar
 
 import (
 	"container/heap"
-	"fmt"
+	_ "fmt"
 	"github.com/ozgurOdun/vbm688_hw01/priorityQueue"
 	"github.com/ozgurOdun/vbm688_hw01/search"
 	"github.com/ozgurOdun/vbm688_hw01/utils"
@@ -22,8 +22,8 @@ func Solve(start search.State, goal [][]int) (*search.State, int, int) {
 		currentItem := heap.Pop(&pq).(*priorityQueue.Item)
 		current := states[currentItem.Value]
 		expanded++
-		utils.StatePrinter(current.Board)
-		fmt.Println(current.Distance)
+		//utils.StatePrinter(current.Board)
+		//fmt.Println(current.Distance)
 		if current.IsGoal(goal) {
 			//solved
 			return &current, frontier, expanded
