@@ -33,9 +33,9 @@ func Solve(start search.State, goal [][]int) (*search.State, int, int) {
 			key := utils.BoardStringer(next.Board)
 			if old, exists := states[key]; !exists || next.Distance < old.Distance {
 				states[key] = next
+				heap.Push(&pq, &priorityQueue.Item{Value: key, Priority: next.Distance, Index: 0})
+				frontier++
 			}
-			heap.Push(&pq, &priorityQueue.Item{Value: key, Priority: next.Distance, Index: 0})
-			frontier++
 		}
 	}
 	return nil, frontier, expanded
